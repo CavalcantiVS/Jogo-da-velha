@@ -23,13 +23,12 @@ public class JogoDaVelha {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String[][] tabuleiro = inicializarTabuleiro();
-        int turno = 0;
-        menu(input, tabuleiro, turno);
+        menu(input, tabuleiro);
         
         
 
     }
-    public static void menu(Scanner input, String[][] tabuleiro, int turno){
+    public static void menu(Scanner input, String[][] tabuleiro){
         int opcaoMenu;
         do {
             System.out.println("1 - JOGAR");
@@ -44,7 +43,7 @@ public class JogoDaVelha {
                     System.out.println("[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
                     int opcao = input.nextInt();
                     opcaoMenu = 0;
-                    jogar(tabuleiro, input, turno);
+                    modoJogo(tabuleiro, input);
                     break;
                 
                 case 2:
@@ -88,7 +87,7 @@ public class JogoDaVelha {
             System.out.println("\n*=* Posição Inválida! *=*\n");
             return false;
         }else{
-            System.out.println("\n*=* Posição Válida! *=*\n");
+            // System.out.println("\n*=* Posição Válida! *=*\n");
             return true;
         }
 }
@@ -99,66 +98,152 @@ public class JogoDaVelha {
         String jog1 = input.next();
         System.out.print("Jogador 2: ");
         String jog2 = input.next();
+        System.out.println("");
+        
+        jogar(tabuleiro, input, jog1, jog2);
+
 
         
     }
-    public static void jogar(String[][] tabuleiro, Scanner input, int turno){
+    public static void jogar(String[][] tabuleiro, Scanner input, String jogador1, String jogador2){
         boolean jogoAcabou = false;
+        int turno = 0;
         int posicaoHorizontal = 3;
         int posicaoVertical = 3;
         boolean valida;
+        String nomeJogador = " ";
+        
         while(!jogoAcabou){
             String jogador = " ";
             if(turno % 2 == 0){
                 jogador = "X";
+                nomeJogador = jogador1;
             }else{
                 jogador = "O";
+                nomeJogador = jogador2;
             }
             imprimirTabuleiro(tabuleiro);
             System.out.println("");
             do{
 
                 do{
-
-                    System.out.println("Posição Vertical [A] [B] [C]");
+                    
+                    System.out.printf("\nVez de: %s (%s)%n", nomeJogador, jogador);
+                    System.out.println("Posição Horizontal [A] [B] [C]");
                     System.out.print("Opção: ");
-                    String pVertical = input.next();
-                    pVertical = pVertical.toLowerCase();
+                    String pHorizontal = input.next();
+                    pHorizontal = pHorizontal.toLowerCase();
 
-                    switch(pVertical){
+                    switch(pHorizontal){
                         case "a":
-                            posicaoVertical = 0;
+                            posicaoHorizontal = 0;
                             break;
                         case "b":
-                            posicaoVertical = 1;
+                            posicaoHorizontal = 1;
                             break;
                         case "c":
-                            posicaoVertical = 2;
+                            posicaoHorizontal = 2;
                             break;
                         default:
                             System.out.println("Posição Inválida!");
                     }
 
 
-                }while(posicaoVertical < 0 || posicaoVertical > 2);
+                }while(posicaoHorizontal < 0 || posicaoHorizontal > 2);
                 do{
 
-                    System.out.println("Posição Horizontal [0] [1] [2]");
+                    System.out.println("Posição Vertical [0] [1] [2]");
                     System.out.print("Opção: ");
-                    posicaoHorizontal = input.nextInt();
+                    posicaoVertical = input.nextInt();
 
-                    if(posicaoHorizontal < 0 || posicaoHorizontal > 2){
+                    if(posicaoVertical < 0 || posicaoVertical > 2){
                         System.out.println("\n*=* Posição Inválida *=*\n");
                     }
 
 
-                }while(posicaoHorizontal < 0 || posicaoHorizontal > 2);
-               valida = posicaoValida(tabuleiro[posicaoHorizontal][posicaoVertical]);
-            }while(valida == false);
-            tabuleiro[posicaoHorizontal][posicaoVertical] = jogador;
+                }while(posicaoVertical < 0 || posicaoVertical > 2);
+               valida = posicaoValida(tabuleiro[posicaoVertical][posicaoHorizontal]);
+            }while(!valida);
+            
+            tabuleiro[posicaoVertical][posicaoHorizontal] = jogador;
             turno++;
-            // FAZER FUNÇÃO DE VERIFICAR SE O JOGO ACABOU E CHAMAR AQUI
+            
+            if (verificaVencedor(tabuleiro, jogador1, jogador2)) {
+                imprimirTabuleiro(tabuleiro);
+                System.out.println("\nJogo acabou!\n\n");
+                jogoAcabou = true;
+            } else if (verificaVelha(turno)) {
+                imprimirTabuleiro(tabuleiro);
+                System.out.println("\n\nJogo acabou em empate!\n\n");
+                jogoAcabou = true;
+            }
         }
         
+    }
+
+    public static boolean verificaVencedor(String[][] tabuleiro, String jog1, String jog2){
+        
+        String nomeJogador = "null";
+                
+        // Verifica horizontal
+        for (int i = 0; i < 3; i++) {
+            if (!tabuleiro[i][0].equals(" ") && tabuleiro[i][0].equals(tabuleiro[i][1]) && tabuleiro[i][0].equals(tabuleiro[i][2])) {
+                if(tabuleiro[i][0] == "X"){
+                    nomeJogador = jog1;
+                }else if(tabuleiro[i][0] == "O"){
+                    nomeJogador = jog2;
+                }else{
+                    nomeJogador = tabuleiro[i][0];
+                }
+                
+                System.out.printf("\n\nJogador %s venceu!\n", nomeJogador);
+                return true;
+            }
+        }
+        
+        // Verifica vertical
+        for (int i = 0; i < 3; i++) {
+            if (!tabuleiro[0][i].equals(" ") && tabuleiro[0][i].equals(tabuleiro[1][i]) && tabuleiro[0][i].equals(tabuleiro[2][i])) {
+                if(tabuleiro[0][i] == "X"){
+                    nomeJogador = jog1;
+                }else if(tabuleiro[0][i] == "O"){
+                    nomeJogador = jog2;
+                }else{
+                    nomeJogador = tabuleiro[0][i];
+                }
+                System.out.printf("\n\nJogador %s venceu!\n\n", nomeJogador);
+                return true;
+            }
+        }
+        
+        // Verifica diagonais
+        if (!tabuleiro[0][0].equals(" ") && tabuleiro[0][0].equals(tabuleiro[1][1]) && tabuleiro[0][0].equals(tabuleiro[2][2])) {
+            if(tabuleiro[0][0] == "X"){
+                    nomeJogador = jog1;
+                }else if(tabuleiro[0][0] == "O"){
+                    nomeJogador = jog2;
+                }else{
+                    nomeJogador = tabuleiro[0][0];
+                }
+            System.out.printf("\n\nJogador %s venceu!\n\n", nomeJogador);
+            return true;
+        }
+        if (!tabuleiro[0][2].equals(" ") && tabuleiro[0][2].equals(tabuleiro[1][1]) && tabuleiro[0][2].equals(tabuleiro[2][0])) {
+            if(tabuleiro[0][2] == "X"){
+                    nomeJogador = jog1;
+                }else if(tabuleiro[0][2] == "O"){
+                    nomeJogador = jog2;
+                }else{
+                    nomeJogador = tabuleiro[0][2];
+                }
+            System.out.printf("\n\nJogador %s venceu!\n\n", nomeJogador);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static boolean verificaVelha(int turno){
+        return turno >= 9;
     }
 }

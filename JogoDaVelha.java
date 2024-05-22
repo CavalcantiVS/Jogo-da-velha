@@ -95,10 +95,10 @@ public class JogoDaVelha {
 }
     public static void modoJogo(String[][] tabuleiro, Scanner input, int modoDeJogo){
         boolean validacao = true;
-        System.out.println("*=* JOGADOR x JOGADOR *=*\n");
+        System.out.println("\n\n*=* JOGADOR x JOGADOR *=*\n");
         
         if(modoDeJogo == 1){
-            System.out.println("Insira os nomes dos jogadores: \n");
+            System.out.println("Insira os nomes dos jogadores\n");
             System.out.print("Jogador 1: ");
             String jog1 = input.next();
             System.out.print("Jogador 2: ");

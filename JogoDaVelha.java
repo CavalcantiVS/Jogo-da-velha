@@ -40,8 +40,10 @@ public class JogoDaVelha {
 
             switch(opcaoMenu) {
                 case 1:
-                    System.out.println("\n=-=-=-=-=-= INICIANDO JOGO =-=-=-=-=-=");
-                    opcaoMenu = 4;
+                    System.out.println("\n\n=-=-=-=-=-= INICIANDO JOGO =-=-=-=-=-=\n\n");
+                    System.out.println("[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
+                    int opcao = input.nextInt();
+                    opcaoMenu = 0;
                     jogar(tabuleiro, input, turno);
                     break;
                 
@@ -51,8 +53,6 @@ public class JogoDaVelha {
             }
         }while (opcaoMenu > 2 || opcaoMenu < 1);
 
-        System.out.println("[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
-        int opcao = input.nextInt();
     }
 
     public static void instrucoes(){

@@ -34,21 +34,23 @@ public class JogoDaVelha {
             System.out.println("1 - JOGAR");
             System.out.println("2 - INSTRUÇÕES");
 
-            System.out.print("Opção: ");
+            System.out.print("\nOpção: ");
             opcaoMenu = input.nextInt();
 
             switch(opcaoMenu) {
                 case 1:
                     System.out.println("\n\n=-=-=-=-=-= INICIANDO JOGO =-=-=-=-=-=\n\n");
                     System.out.println("[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
-                    int opcao = input.nextInt();
+                    System.out.print("\nOpção: ");
+                    int modoDeJogo = input.nextInt();
                     opcaoMenu = 0;
-                    modoJogo(tabuleiro, input);
+                    modoJogo(tabuleiro, input, modoDeJogo);
                     break;
                 
                 case 2:
                     instrucoes();
                     break;
+                
             }
         }while (opcaoMenu > 2 || opcaoMenu < 1);
 
@@ -70,7 +72,7 @@ public class JogoDaVelha {
         return jogoDaVelha;
     }
     public static void imprimirTabuleiro(String[][] tabuleiro){
-        System.out.println("   A   B   C ");
+        System.out.println("\n   A   B   C ");
         for(int i =0; i < tabuleiro.length; i++){
             if(i>0){
                 System.out.println("");
@@ -91,16 +93,20 @@ public class JogoDaVelha {
             return true;
         }
 }
-    public static void modoJogo(String[][] tabuleiro, Scanner input){
+    public static void modoJogo(String[][] tabuleiro, Scanner input, int modoDeJogo){
         boolean validacao = true;
         System.out.println("*=* JOGADOR x JOGADOR *=*\n");
-        System.out.print("Jogador 1: ");
-        String jog1 = input.next();
-        System.out.print("Jogador 2: ");
-        String jog2 = input.next();
-        System.out.println("");
         
-        jogar(tabuleiro, input, jog1, jog2);
+        if(modoDeJogo == 1){
+            System.out.println("Insira os nomes dos jogadores: \n");
+            System.out.print("Jogador 1: ");
+            String jog1 = input.next();
+            System.out.print("Jogador 2: ");
+            String jog2 = input.next();
+            System.out.println("");
+
+            jogar(tabuleiro, input, jog1, jog2);
+        }
 
 
         
@@ -185,7 +191,7 @@ public class JogoDaVelha {
         
         String nomeJogador = "null";
                 
-        // Verifica horizontal
+        // Verifica linhas
         for (int i = 0; i < 3; i++) {
             if (!tabuleiro[i][0].equals(" ") && tabuleiro[i][0].equals(tabuleiro[i][1]) && tabuleiro[i][0].equals(tabuleiro[i][2])) {
                 if(tabuleiro[i][0] == "X"){
@@ -201,7 +207,7 @@ public class JogoDaVelha {
             }
         }
         
-        // Verifica vertical
+        // Verifica colunas
         for (int i = 0; i < 3; i++) {
             if (!tabuleiro[0][i].equals(" ") && tabuleiro[0][i].equals(tabuleiro[1][i]) && tabuleiro[0][i].equals(tabuleiro[2][i])) {
                 if(tabuleiro[0][i] == "X"){

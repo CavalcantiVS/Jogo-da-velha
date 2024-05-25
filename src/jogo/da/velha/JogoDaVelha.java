@@ -1,4 +1,4 @@
-package brunojoaomariana;
+package jogodavelha;
  
 import java.util.Scanner;
  

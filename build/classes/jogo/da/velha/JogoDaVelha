@@ -1,0 +1,35 @@
+package brunojoaomariana;
+import java.util.Scanner;
+public class JogoDaVelha {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner (System.in);
+        int opcaoMenu;
+        do {
+            System.out.println("1 - JOGAR");
+            System.out.println("2 - INSTRUÇÕES");
+
+            System.out.print("Opção: ");
+            opcaoMenu = input.nextInt();
+
+            switch (opcaoMenu) {
+                case 1:
+                    System.out.println("\n=-=-=-=-=-= INICIANDO JOGO =-=-=-=-=-=");
+                    opcaoMenu = 4;
+                    break;
+                
+                case 2:
+                    instrucoes();
+                    break;
+   }
+     }while (opcaoMenu > 2 || opcaoMenu <1);
+
+        System.out.println("[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
+        int opcao = input.nextInt();
+    }
+    public static void instrucoes() throws InterruptedException {
+        System.out.println("\nJOGADOR-USUÁRIO CONTRA JOGADOR-USUÁRIO:\nNesse modo, todas as jogadas serão feitas de forma alternada por jogadores-usuários. Sendo assim, um deles será o X e o outro o O\n");
+        System.out.println("\nJOGADOR-USUÁRIO CONTRA A MÁQUINA - (NÍVEL FÁCIL):\nNesse modo, o jogador deve jogar contra a máquina. No modo fácil, a máquina não tem estratégia alguma, isto é, ela irá jogar aleatoriamente nas posições que estiverem disponíveis no tabuleiro\n");
+        System.out.println("\nJOGADOR-USUÁRIO CONTRA A MÁQUINA - (NÍVEL DIFÍCIL):\nNesse modo, a máquina deve tentar seguir o raciocínio da Jogada Perfeita. Em suma, a não ser em condições especiais, o jogador deve ter preferência pela posição central, seguida pelos cantos, seguidos pelas bordas\n");
+    }
+}

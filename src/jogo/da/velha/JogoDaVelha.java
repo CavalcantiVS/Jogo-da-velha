@@ -43,7 +43,7 @@ public class JogoDaVelha {
                     do{
                         String[][] tabuleiro = inicializarTabuleiro();
                         System.out.println("\n[1] Usuário contra usuário - [2] Usuário contra máquina(Fácil) - [3] Usuário contra máquina(Difícil)");
-                        System.out.print("\nOpção: ");
+                        System.out.print("\nEscolha uma opção: ");
                         modoDeJogo = input.nextInt();
                         opcaoMenu = 0;
                         if(modoDeJogo == 1){
@@ -94,6 +94,7 @@ public class JogoDaVelha {
         }
         System.out.println("");
     }
+    
     public static boolean posicaoValida(String posicao){
         if(!posicao.equals(" ")){
             // System.out.println("\n*=* Posição Inválida! *=*\n");
@@ -103,6 +104,7 @@ public class JogoDaVelha {
             return true;
         }
 }
+    
     public static void modoJogador(String[][] tabuleiro, Scanner input, int modoDeJogo){
         boolean validacao = true;
         System.out.println("\n\n*=* JOGADOR x JOGADOR *=*\n");
@@ -119,6 +121,7 @@ public class JogoDaVelha {
         }
         
     }
+    
     public static void modoDificil(String[][] tabuleiro, Scanner input, int modoDeJogo){
         boolean validacao = true;
         System.out.println("\n\n*=* JOGADOR x MÁQUINA - NÍVEL DIFÍCIL *=*\n");
@@ -132,6 +135,7 @@ public class JogoDaVelha {
         jogar(tabuleiro, input, jog1, jog2, modoDeJogo);
         
     }
+    
     public static void jogar(String[][] tabuleiro, Scanner input, String jogador1, String jogador2, int modoJogo){
         boolean jogoAcabou = false;
         int turno = 0;

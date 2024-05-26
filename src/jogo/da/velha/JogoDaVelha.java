@@ -116,13 +116,7 @@ public class JogoDaVelha {
     }
     
     public static boolean posicaoValida(String posicao){
-        if(!posicao.equals(" ")){
-            // System.out.println("\n*=* Posição Inválida! *=*\n");
-            return false;
-        }else{
-            // System.out.println("\n*=* Posição Válida! *=*\n");
-            return true;
-        }
+            return posicao.equals(" "); // Retorna true se a posição está vazia
 }
     
     public static void modoJogador(String[][] tabuleiro, Scanner input, int modoDeJogo){
@@ -173,75 +167,69 @@ public class JogoDaVelha {
     // A estrutura abaixo representa toda a lógica que está sendo utilizada no jogo
     public static void jogar(String[][] tabuleiro, Scanner input, String jogador1, String jogador2, int modoJogo){
         boolean jogoAcabou = false;
-        int turno = 0;
-        boolean valida;
-        String nomeJogador = " ";
-        
-        while(!jogoAcabou){
-            String jogador = " ";
-            if(turno % 2 == 0){
-                jogador = "X";
-                nomeJogador = jogador1;
-            }else{
-                jogador = "O";
-                nomeJogador = jogador2;
-            }
-            imprimirTabuleiro(tabuleiro);
-            System.out.println("");
-            
-            if(modoJogo == 1){
+    int turno = 0;
+    String nomeJogador;
+
+    while (!jogoAcabou) {
+        String jogador;
+        if (turno % 2 == 0) {
+            jogador = "X";
+            nomeJogador = jogador1;
+        } else {
+            jogador = "O";
+            nomeJogador = jogador2;
+        }
+        imprimirTabuleiro(tabuleiro);
+        System.out.println("");
+
+        if (modoJogo == 1) {
+            jogadaUsuario(input, tabuleiro, jogador, nomeJogador);
+            turno++;
+        } else if (modoJogo == 2) {
+            if (turno % 2 == 0) {
                 jogadaUsuario(input, tabuleiro, jogador, nomeJogador);
-                turno++;
-            }else if(modoJogo == 2){
-                //jogadaMaquinaFacil
-                if(turno % 2 == 0){
-                    jogadaUsuario(input, tabuleiro, jogador, nomeJogador);
-                    turno++;
-                }else{
-                    //jogadaMaquinaFacil(tabuleiro, jogador, nomeJogador);
-                    turno++;
-                }
-            }else if(modoJogo == 3){
-                //jogadaMaquinaDificil
-                if(turno % 2 == 0){
-                    jogadaUsuario(input, tabuleiro, jogador, nomeJogador);
-                    turno++;
-                }else{
-                    jogadaMaquinaDificil(tabuleiro, jogador, nomeJogador);
-                    turno++;
-                }
+            } else {
+                jogadaMaquinaFacil(tabuleiro, jogador, nomeJogador);
             }
-                        
-            if (verificaVencedor(tabuleiro, jogador1, jogador2)) {
-                imprimirTabuleiro(tabuleiro);
-                System.out.println("\nJogo acabou!\n\n");
-                jogoAcabou = true;
-            } else if (verificaVelha(turno)) {
-                imprimirTabuleiro(tabuleiro);
-                System.out.println("\n\nJogo acabou em empate!\n\n");
-                jogoAcabou = true;
+            turno++;
+        } else if (modoJogo == 3) {
+            if (turno % 2 == 0) {
+                jogadaUsuario(input, tabuleiro, jogador, nomeJogador);
+            } else {
+                jogadaMaquinaDificil(tabuleiro, jogador, nomeJogador);
             }
+            turno++;
+        }
+
+        if (verificaVencedor(tabuleiro, jogador1, jogador2)) {
+            imprimirTabuleiro(tabuleiro);
+            System.out.println("\nJogo acabou!\n\n");
+            jogoAcabou = true;
+        } else if (verificaVelha(turno)) {
+            imprimirTabuleiro(tabuleiro);
+            System.out.println("\n\nJogo acabou em empate!\n\n");
+            jogoAcabou = true;
         }
     }
+}
 
     // Lê a jogada do usuário
     public static String[][] jogadaUsuario(Scanner input, String[][] tabuleiro, String jogador, String nomeJogador){
-        boolean valida;
-        do{
-                System.out.printf("\nVez de: %s (%s)%n", nomeJogador, jogador);
-                int posicaoHorizontal = leiaCoordenadaColuna(input);
-                int posicaoVertical = leiaCoordenadaLinha(input);
-                
-                valida = posicaoValida(tabuleiro[posicaoVertical][posicaoHorizontal]);
-                if(valida){
-                    System.out.println("\n\nJogada inválida! Essa posição já está sendo ocupada.\n\n");
-                }else{
-                    tabuleiro[posicaoVertical][posicaoHorizontal] = jogador;
-                }
-                
-            }while(!valida);
-        return tabuleiro;
-    }
+       boolean valida;
+    do {
+        System.out.printf("\nVez de: %s (%s)%n", nomeJogador, jogador);
+        int posicaoHorizontal = leiaCoordenadaColuna(input);
+        int posicaoVertical = leiaCoordenadaLinha(input);
+        
+        valida = posicaoValida(tabuleiro[posicaoVertical][posicaoHorizontal]);
+        if (!valida) {
+            System.out.println("\n\nJogada inválida! Essa posição já está sendo ocupada.\n\n");
+        } else {
+            tabuleiro[posicaoVertical][posicaoHorizontal] = jogador;
+        }
+    } while (!valida); // Continua pedindo uma nova posição até que seja válida
+    return tabuleiro;
+}
     
     
     // Lógica da jogada da máquina (nível fácil)
@@ -255,7 +243,7 @@ public class JogoDaVelha {
             int posicaoVertical = random.nextInt(3);
 
             if (posicaoValida(tabuleiro[posicaoHorizontal][posicaoVertical])) {
-                tabuleiro[posicaoHorizontal][posicaoVertical] = jogador.equals("X") ? "O" : "X";
+                tabuleiro[posicaoHorizontal][posicaoVertical] = jogador;  // Aqui deve ser o jogador atual
                 jogadaValida = true;
             }
         }

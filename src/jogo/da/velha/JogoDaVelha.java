@@ -1,5 +1,6 @@
 package jogodavelha;
  
+import java.util.Random;
 import java.util.Scanner;
  
 /*********************************************************************/
@@ -19,6 +20,8 @@ import java.util.Scanner;
  
 public class JogoDaVelha {
  
+    static int pontuacaoJogador1 = 0;
+    static int pontuacaoJogador2 = 0;
  
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -27,11 +30,14 @@ public class JogoDaVelha {
         
 
     }
+    // Exibe o menu principal do jogo
     public static void imprimeMenuPrincipal(Scanner input){
         int opcaoMenu;
         do {
             System.out.println("1 - JOGAR");
             System.out.println("2 - INSTRUÇÕES");
+            System.out.println("3 - PONTUAÇÃO");
+            System.out.println("4 - SAIR");
 
             System.out.print("\nOpção: ");
             opcaoMenu = input.nextInt();
@@ -49,29 +55,42 @@ public class JogoDaVelha {
                         if(modoDeJogo == 1){
                             modoJogador(tabuleiro, input, modoDeJogo);
                         }else if(modoDeJogo == 2){
-                            
+                            modoFacil(tabuleiro, input, modoDeJogo);
                         }else if(modoDeJogo == 3){
                             modoDificil(tabuleiro, input, modoDeJogo);
                         }
                         
                     }while(modoDeJogo < 1 || modoDeJogo > 3);
                     break;
-                
                 case 2:
                     instrucoes();
                     break;
-                
+                    case 3:
+                    imprimePontuacao();
+                    break;
+                case 4:
+                    System.out.println("Saindo do jogo...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
             }
-        }while (opcaoMenu > 2 || opcaoMenu < 1);
-
+        } while (opcaoMenu != 4);
     }
-
+                
+    //Função para as instruções do jogo
     public static void instrucoes(){
         System.out.println("\nJOGADOR-USUÁRIO CONTRA JOGADOR-USUÁRIO:\nNesse modo, todas as jogadas serão feitas de forma alternada por jogadores-usuários. Sendo assim, um deles será o X e o outro o O\n");
         System.out.println("\nJOGADOR-USUÁRIO CONTRA A MÁQUINA - (NÍVEL FÁCIL):\nNesse modo, o jogador deve jogar contra a máquina. No modo fácil, a máquina não tem estratégia alguma, isto é, ela irá jogar aleatoriamente nas posições que estiverem disponíveis no tabuleiro\n");
         System.out.println("\nJOGADOR-USUÁRIO CONTRA A MÁQUINA - (NÍVEL DIFÍCIL):\nNesse modo, a máquina deve tentar seguir o raciocínio da Jogada Perfeita. Em suma, a não ser em condições especiais, o jogador deve ter preferência pela posição central, seguida pelos cantos, seguidos pelas bordas\n");
     }
+    
+     // Exibe a pontuação dos jogadores
+    public static void imprimePontuacao() {
+        System.out.printf("\nPontuação:\nJogador 1: %d\nJogador 2: %d\n\n", pontuacaoJogador1, pontuacaoJogador2);
+    }
 
+    // Inicializa o tabuleiro com espaços em branco
     public static String[][] inicializarTabuleiro(){
         String[][] jogoDaVelha = new String[3][3];
         for(int i =0; i < jogoDaVelha.length; i++){
@@ -81,6 +100,7 @@ public class JogoDaVelha {
         }
         return jogoDaVelha;
     }
+    
     public static void imprimirTabuleiro(String[][] tabuleiro){
         System.out.println("\n   A   B   C ");
         for(int i =0; i < tabuleiro.length; i++){
@@ -122,6 +142,20 @@ public class JogoDaVelha {
         
     }
     
+    // Modo de jogo: jogador contra máquina (nível fácil)
+    public static void modoFacil(String[][] tabuleiro, Scanner input, int modoDeJogo) {
+        System.out.println("\n\n*=* JOGADOR x MÁQUINA - NÍVEL FÁCIL *=*\n");
+
+        System.out.println("Insira o seu nome\n");
+        System.out.print("Jogador: ");
+        String jog1 = input.next();
+        String jog2 = "Computador";
+        System.out.println("");
+
+        jogar(tabuleiro, input, jog1, jog2, modoDeJogo);
+    }
+    
+    // Modo de jogo: jogador contra máquina (nível difícil)
     public static void modoDificil(String[][] tabuleiro, Scanner input, int modoDeJogo){
         boolean validacao = true;
         System.out.println("\n\n*=* JOGADOR x MÁQUINA - NÍVEL DIFÍCIL *=*\n");
@@ -136,6 +170,7 @@ public class JogoDaVelha {
         
     }
     
+    // A estrutura abaixo representa toda a lógica que está sendo utilizada no jogo
     public static void jogar(String[][] tabuleiro, Scanner input, String jogador1, String jogador2, int modoJogo){
         boolean jogoAcabou = false;
         int turno = 0;
@@ -189,6 +224,7 @@ public class JogoDaVelha {
         }
     }
 
+    // Lê a jogada do usuário
     public static String[][] jogadaUsuario(Scanner input, String[][] tabuleiro, String jogador, String nomeJogador){
         boolean valida;
         do{
@@ -198,14 +234,36 @@ public class JogoDaVelha {
                 
                 valida = posicaoValida(tabuleiro[posicaoVertical][posicaoHorizontal]);
                 if(valida){
+                    System.out.println("\n\nJogada inválida! Essa posição já está sendo ocupada.\n\n");
+                }else{
                     tabuleiro[posicaoVertical][posicaoHorizontal] = jogador;
                 }
                 
             }while(!valida);
-        
         return tabuleiro;
     }
     
+    
+    // Lógica da jogada da máquina (nível fácil)
+    public static String[][] jogadaMaquinaFacil(String[][] tabuleiro, String jogador, String nomeJogador) {
+        System.out.printf("\nVez de: %s (%s)%n", nomeJogador, jogador);
+        Random random = new Random();
+        boolean jogadaValida = false;
+
+        while (!jogadaValida) {
+            int posicaoHorizontal = random.nextInt(3);
+            int posicaoVertical = random.nextInt(3);
+
+            if (posicaoValida(tabuleiro[posicaoHorizontal][posicaoVertical])) {
+                tabuleiro[posicaoHorizontal][posicaoVertical] = jogador.equals("X") ? "O" : "X";
+                jogadaValida = true;
+            }
+        }
+
+        return tabuleiro;
+    }
+    
+    // Lógica da jogada da máquina (nível difícil)
     public static String[][] jogadaMaquinaDificil(String[][] tabuleiro, String jogador, String nomeJogador) {
     boolean valida;
     int posicaoHorizontal = -1;

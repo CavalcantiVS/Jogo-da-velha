@@ -1,4 +1,4 @@
-package jogodavelha;
+package brunojoaomariana;
  
 import java.util.Random;
 import java.util.Scanner;
@@ -418,8 +418,10 @@ public class JogoDaVelha {
         for (int i = 0; i < 3; i++) {
             if (!tabuleiro[i][0].equals(" ") && tabuleiro[i][0].equals(tabuleiro[i][1]) && tabuleiro[i][0].equals(tabuleiro[i][2])) {
                 if(tabuleiro[i][0] == "X"){
+                    pontuacaoJogador1++;
                     nomeJogador = jog1;
                 }else if(tabuleiro[i][0] == "O"){
+                    pontuacaoJogador2++;
                     nomeJogador = jog2;
                 }else{
                     nomeJogador = tabuleiro[i][0];
@@ -434,8 +436,11 @@ public class JogoDaVelha {
             if (!tabuleiro[0][i].equals(" ") && tabuleiro[0][i].equals(tabuleiro[1][i]) && tabuleiro[0][i].equals(tabuleiro[2][i])) {
                 if(tabuleiro[0][i] == "X"){
                     nomeJogador = jog1;
+                    pontuacaoJogador1++;
                 }else if(tabuleiro[0][i] == "O"){
                     nomeJogador = jog2;
+                    pontuacaoJogador2++;
+
                 }else{
                     nomeJogador = tabuleiro[0][i];
                 }
@@ -447,8 +452,10 @@ public class JogoDaVelha {
         if (!tabuleiro[0][0].equals(" ") && tabuleiro[0][0].equals(tabuleiro[1][1]) && tabuleiro[0][0].equals(tabuleiro[2][2])) {
             if(tabuleiro[0][0] == "X"){
                     nomeJogador = jog1;
+                    pontuacaoJogador1++;
                 }else if(tabuleiro[0][0] == "O"){
                     nomeJogador = jog2;
+                    pontuacaoJogador2++;
                 }else{
                     nomeJogador = tabuleiro[0][0];
                 }
@@ -458,8 +465,10 @@ public class JogoDaVelha {
         if (!tabuleiro[0][2].equals(" ") && tabuleiro[0][2].equals(tabuleiro[1][1]) && tabuleiro[0][2].equals(tabuleiro[2][0])) {
             if(tabuleiro[0][2] == "X"){
                     nomeJogador = jog1;
+                    pontuacaoJogador1++;
                 }else if(tabuleiro[0][2] == "O"){
                     nomeJogador = jog2;
+                    pontuacaoJogador2++;
                 }else{
                     nomeJogador = tabuleiro[0][2];
                 }

@@ -1,3 +1,0 @@
-Jogodavelha.JogoDaVelha
-jogodavelha.JogoDaVelha
-brunojoaomariana.JogoDaVelha
